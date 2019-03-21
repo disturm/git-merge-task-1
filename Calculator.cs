@@ -25,6 +25,12 @@ namespace Kontur.Courses.Git
 					lastResult = result;
 				return result;
 			}
+			if (args.Length == 2)
+			{
+				var v2 = TryParseDouble(args[1]);
+				if (!v2.HasValue) return v2;
+				return lastResult = Execute(args[0], lastResult.Value, v2.Value);
+			}
 			if (args.Length == 3)
 			{
 				var v1 = TryParseDouble(args[0]);
@@ -65,10 +71,9 @@ namespace Kontur.Courses.Git
 					res.Add("");
 					isDigit = !isDigit;
 				}
-				if (!char.IsWhiteSpace(ch))
-					res[res.Count - 1] += ch;
+				res[res.Count - 1] += ch;
 			}
-			return res.ToArray();
+			return res.Select(s => s.Trim()).ToArray();
 		}
 	}
 }
